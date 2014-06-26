@@ -53,6 +53,8 @@
             scrollSensitivity   : 1,
             scrollSpeed         : 5,
             onDragStop          : function(dragItem, dragTarget){},
+            onCollapseItem      : function(node){},
+            onExpandItem        : function(node){},
             scrollTriggers      : {
                 top: 40,
                 left: 40,
@@ -260,6 +262,7 @@
             li.children('[data-action="expand"]').hide();
             li.children('[data-action="collapse"]').show();
             li.children(this.options.listNodeName).show();
+            this.options.onExpandItem(li);
         },
 
         collapseItem: function(li)
@@ -271,6 +274,7 @@
                 li.children('[data-action="expand"]').show();
                 li.children(this.options.listNodeName).hide();
             }
+            this.options.onCollapseItem(li);
         },
 
         expandAll: function()
