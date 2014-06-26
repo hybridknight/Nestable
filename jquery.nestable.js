@@ -51,6 +51,7 @@
             scroll              : false,
             scrollSensitivity   : 1,
             scrollSpeed         : 5,
+            onDragStop          : function(dragItem, dragTarget){},
             scrollTriggers      : {
                 top: 40,
                 left: 40,
@@ -255,6 +256,8 @@
 
         dragStart: function(e)
         {
+            this.beforeMoveTree = this.serialize();
+
             var mouse    = this.mouse,
                 target   = $(e.target),
                 dragItem = target.closest(this.options.itemNodeName);
@@ -267,6 +270,7 @@
             mouse.startY = mouse.lastY = e.pageY;
 
             this.dragRootEl = this.el;
+            this.dragItem = dragItem;
 
             this.dragEl = $(document.createElement(this.options.listNodeName)).addClass(this.options.listClass + ' ' + this.options.dragClass);
             this.dragEl.css('width', dragItem.width());
@@ -295,6 +299,7 @@
 
         dragStop: function(e)
         {
+            var dragTarget = $(this.placeEl).parents(this.options.itemNodeName + '.' + this.options.itemClass);
             // fix for zepto.js
             //this.placeEl.replaceWith(this.dragEl.children(this.options.itemNodeName + ':first').detach());
             var el = this.dragEl.children(this.options.itemNodeName).first();
@@ -307,6 +312,10 @@
                 this.dragRootEl.trigger('change');
             }
             this.reset();
+            var self = this;
+            if(!_.isEqual(self.serialize(), self.beforeMoveTree)){
+                self.options.onDragStop(self.dragItem, dragTarget);
+            }
         },
 
         dragMove: function(e)
