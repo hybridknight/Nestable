@@ -308,7 +308,13 @@ $(document).ready(function()
         onDragStop: function(dragItem, dragTarget){
             var nodeId = dragItem.attr('data-id');
             var dragTargetNodeId = dragTarget.attr('data-id');
-            $('#nestable3-event').val("onDragStop - dragItem:" + nodeId + ", dragTarget: " + dragTargetNodeId);
+            $('#nestable3-event').val("onDragStop - dragItem: " + nodeId + ", dragTarget: " + dragTargetNodeId);
+        },
+        onCollapseItem: function(node){
+          $('#nestable3-event').val("onCollapseItem - node: " + $(node).attr('data-id'));
+        },
+        onExpandItem: function(node){
+          $('#nestable3-event').val("onExpandItem - node: " + $(node).attr('data-id'));
         }
     });
 
